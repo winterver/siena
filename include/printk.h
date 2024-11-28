@@ -21,37 +21,23 @@
  */
 
 /**
- * File              : main.c
+ * File              : printk.h
  * Author            : winterver
  * Date              : 2024.11.28
  * Last Modified Date: 2024.11.28
  * Last Modified By  : winterver
  */
 
-#include <stddef.h>
-#include <printk.h>
-#include "stub.h"
+#ifndef _SIENA_PRINTK_H_
+#define _SIENA_PRINTK_H_
 
-// Halt and catch fire function.
-static void hcf(void) {
-    for (;;) {
-        asm ("hlt");
-    }
-}
+struct limine_framebuffer;
+void init_video(struct limine_framebuffer *framebuffer);
 
-void kmain(void) {
-    if (!LIMINE_BASE_REVISION_SUPPORTED) {
-        hcf();
-    }
+int init_serial();
+char serial_getch();
 
-    if (framebuffer_request.response == NULL || framebuffer_request.response->framebuffer_count < 1) {
-        hcf();
-    }
+int printk(const char* fmt, ...)
+    __attribute__((format(printf, 1, 2)));
 
-    init_video(framebuffer_request.response->framebuffers[0]);
-    init_serial();
-
-    printk("Hello World!\n");
-
-    hcf();
-}
+#endif

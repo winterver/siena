@@ -21,37 +21,14 @@
  */
 
 /**
- * File              : main.c
+ * File              : data.S
  * Author            : winterver
  * Date              : 2024.11.28
  * Last Modified Date: 2024.11.28
  * Last Modified By  : winterver
  */
 
-#include <stddef.h>
-#include <printk.h>
-#include "stub.h"
-
-// Halt and catch fire function.
-static void hcf(void) {
-    for (;;) {
-        asm ("hlt");
-    }
-}
-
-void kmain(void) {
-    if (!LIMINE_BASE_REVISION_SUPPORTED) {
-        hcf();
-    }
-
-    if (framebuffer_request.response == NULL || framebuffer_request.response->framebuffer_count < 1) {
-        hcf();
-    }
-
-    init_video(framebuffer_request.response->framebuffers[0]);
-    init_serial();
-
-    printk("Hello World!\n");
-
-    hcf();
-}
+    .section .rodata
+    .global font_vga
+ font_vga:
+    .incbin "../res/FONT_VGA.BIN"
