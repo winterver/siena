@@ -10,6 +10,8 @@ TARGET = build/siena
 CFLAGS += \
 	-Wall \
 	-Wextra \
+	-nostdinc \
+	-Iinclude \
 	-std=gnu11 \
 	-ffreestanding \
 	-fno-stack-protector \
