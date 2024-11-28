@@ -56,9 +56,6 @@ build/%.o: src/%.c
 run: $(TARGET)
 	mkdir -p vfat/{EFI/BOOT,boot/limine}
 	cp -u limine/BOOTX64.EFI vfat/EFI/BOOT/
-	cp -u limine/limine-bios.sys vfat/boot/limine/
-	cp -u limine/limine-bios-cd.bin vfat/boot/limine/
-	cp -u limine/limine-uefi-cd.bin vfat/boot/limine/
 	cp -u limine.conf vfat/boot/limine/
 	cp -u $(TARGET) vfat/boot/
 	qemu-system-x86_64 -net none -bios /usr/share/ovmf/x64/OVMF.4m.fd -drive file=fat:rw:vfat,format=raw &
