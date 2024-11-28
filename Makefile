@@ -4,7 +4,7 @@ LD = ld
 CFLAGS = -O2
 LDFLAGS =
 
-TARGET = siena
+TARGET = build/siena
 
 # flags that should not be edited
 CFLAGS += \
@@ -30,18 +30,27 @@ LDFLAGS += \
 	-nostdlib \
 	-T linker.ld
 
-SRCS = $(wildcard src/*.S src/*.c)
-OBJS = $(patsubst %.S,%.o,$(patsubst %.c,%.o,$(SRCS)))
+# intentionally left empty
+SRCS =
+OBJS =
+
+SRCS += $(shell find src -type f -name '*.S')
+SRCS += $(shell find src -type f -name '*.c')
+
+OBJS += $(filter %.o,$(patsubst src/%.S,build/%.o,$(SRCS)))
+OBJS += $(filter %.o,$(patsubst src/%.c,build/%.o,$(SRCS)))
 
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
 	$(LD) $(LDFLAGS) $(OBJS) -o $(TARGET)
 
-%.o: %.S
+build/%.o: src/%.S
+	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-%.o: %.c
+build/%.o: src/%.c
+	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 run: $(TARGET)
@@ -56,4 +65,4 @@ run: $(TARGET)
 	sleep 1 && gvncviewer localhost
 
 clean:
-	rm $(TARGET) $(OBJS) > /dev/null || true
+	rm $(TARGET) $(OBJS) 2> /dev/null || true
