@@ -34,7 +34,7 @@
 #include <stdint.h>
 
 inline uint8_t
-inb(uint16_t p)
+inportb(uint16_t p)
 {
     uint8_t ret;
     asm volatile ("inb %%dx, %%al":"=a"(ret):"d"(p));
@@ -42,7 +42,7 @@ inb(uint16_t p)
 }
 
 inline uint16_t
-inw(uint16_t p)
+inportw(uint16_t p)
 {
     uint16_t ret;
     asm volatile ("inw %%dx, %%ax":"=a"(ret):"d"(p));
@@ -50,7 +50,7 @@ inw(uint16_t p)
 }
 
 inline uint32_t
-ind(uint16_t p)
+inportd(uint16_t p)
 {
     uint32_t ret;
     asm volatile ("ind %%dx, %%eax":"=a"(ret):"d"(p));
@@ -58,7 +58,7 @@ ind(uint16_t p)
 }
 
 inline uint64_t
-inq(uint16_t p)
+inportq(uint16_t p)
 {
     uint64_t ret;
     asm volatile ("inq %%dx, %%rax":"=a"(ret):"d"(p));
@@ -66,25 +66,25 @@ inq(uint16_t p)
 }
 
 inline void
-outb(uint16_t p, uint8_t v)
+outportb(uint16_t p, uint8_t v)
 {
     asm volatile ("outb %%al, %%dx"::"d"(p),"a"(v));
 }
 
 inline void
-outw(uint16_t p, uint16_t v)
+outportw(uint16_t p, uint16_t v)
 {
     asm volatile ("outw %%ax, %%dx"::"d"(p),"a"(v));
 }
 
 inline void
-outd(uint16_t p, uint32_t v)
+outportd(uint16_t p, uint32_t v)
 {
     asm volatile ("outd %%eax, %%dx"::"d"(p),"a"(v));
 }
 
 inline void
-outq(uint16_t p, uint64_t v)
+outportq(uint16_t p, uint64_t v)
 {
     asm volatile ("outq %%rax, %%dx"::"d"(p),"a"(v));
 }
