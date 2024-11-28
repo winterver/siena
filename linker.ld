@@ -1,7 +1,4 @@
-/* Tell the linker that we want an x86_64 ELF64 output file */
 OUTPUT_FORMAT(elf64-x86-64)
-
-/* We want the symbol kmain to be our entry point */
 ENTRY(kmain)
 
 /* Define the program headers we want so the bootloader gives us the right */
@@ -23,31 +20,21 @@ SECTIONS
     /* that is the beginning of the region. */
     . = 0xffffffff80000000;
 
-    /* Define a section to contain the Limine requests and assign it to its own PHDR */
     .limine_requests : {
         KEEP(*(.limine_requests_start))
         KEEP(*(.limine_requests))
         KEEP(*(.limine_requests_end))
     } :limine_requests
 
-    /* Move to the next memory page for .text */
-    . = ALIGN(CONSTANT(MAXPAGESIZE));
-
-    .text : {
+    .text : ALIGN(4096) {
         *(.text .text.*)
     } :text
 
-    /* Move to the next memory page for .rodata */
-    . = ALIGN(CONSTANT(MAXPAGESIZE));
-
-    .rodata : {
+    .rodata : ALIGN(4096) {
         *(.rodata .rodata.*)
     } :rodata
 
-    /* Move to the next memory page for .data */
-    . = ALIGN(CONSTANT(MAXPAGESIZE));
-
-    .data : {
+    .data : ALIGN(4096) {
         *(.data .data.*)
     } :data
 

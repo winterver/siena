@@ -6,7 +6,7 @@ Copy the files and ensure this hierachy in the EFI partition:
 - /boot/limine/limine-bios-cd.bin
 - /boot/limine/limine-uefi-cd.bin
 
-Additionally, this is the grub:
+Additionally, this is GRUB:
 - /EFI/BOOT/BOOTX64.EFI
 
 Then, reboot and enter grub, enter cmd mode (press c), run:
