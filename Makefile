@@ -30,7 +30,7 @@ CFLAGS += \
 LDFLAGS += \
 	-static \
 	-nostdlib \
-	-T linker.ld
+	-Tlinker.ld
 
 # intentionally left empty
 SRCS =
@@ -56,10 +56,10 @@ build/%.o: src/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 run: $(TARGET)
-	mkdir -p vfat/{EFI/BOOT,boot/limine}
+	mkdir -p vfat/{EFI/BOOT,limine}
 	cp -u limine/BOOTX64.EFI vfat/EFI/BOOT/
-	cp -u limine.conf vfat/boot/limine/
-	cp -u $(TARGET) vfat/boot/
+	cp -u limine.conf vfat/limine/
+	cp -u $(TARGET) vfat/limine/
 	qemu-system-x86_64 -net none -bios /usr/share/ovmf/x64/OVMF.4m.fd -drive file=fat:rw:vfat,format=raw &
 	sleep 1 && gvncviewer localhost
 
