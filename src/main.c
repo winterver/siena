@@ -24,7 +24,7 @@
  * File              : main.c
  * Author            : winterver
  * Date              : 2024.11.28
- * Last Modified Date: 2024.11.28
+ * Last Modified Date: 2024.11.29
  * Last Modified By  : winterver
  */
 
@@ -40,11 +40,10 @@ static void hcf(void) {
 }
 
 void kmain(void) {
-    if (!LIMINE_BASE_REVISION_SUPPORTED) {
-        hcf();
-    }
-
-    if (framebuffer_request.response == NULL || framebuffer_request.response->framebuffer_count < 1) {
+    if (!LIMINE_BASE_REVISION_SUPPORTED ||
+        framebuffer_request.response == NULL ||
+        framebuffer_request.response->framebuffer_count < 1)
+    {
         hcf();
     }
 
